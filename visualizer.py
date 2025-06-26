@@ -41,6 +41,21 @@ def plot_curve_and_points(curve, points=None, highlight=None, ax=None, labels=No
                     skipped += 1
             except Exception:
                 skipped += 1
+    # Plot smooth real curve as background for small p
+    if p <= 1000:
+        x_real = np.linspace(-p, p, 800)
+        y_real_pos = []
+        y_real_neg = []
+        x_real_valid = []
+        for x in x_real:
+            rhs = x**3 + a*x + b
+            if rhs >= 0:
+                y = np.sqrt(rhs)
+                x_real_valid.append(x)
+                y_real_pos.append(y)
+                y_real_neg.append(-y)
+        ax.plot(x_real_valid, y_real_pos, color='green', linewidth=1.5, alpha=0.5, label='Real Curve')
+        ax.plot(x_real_valid, y_real_neg, color='green', linewidth=1.5, alpha=0.5)
     # Plot curve points only if p is small
     if p <= 1000:
         x_vals = np.arange(0, p)
